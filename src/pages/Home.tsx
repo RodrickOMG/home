@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Github, Youtube, Mail, BookOpen, Layers, Globe, Music } from 'lucide-react';
 
 // 添加动画样式
@@ -142,12 +143,17 @@ const Home: React.FC<HomeProps> = ({ hitokoto }) => {
     const timer = setTimeout(() => {
       setIsLoaded(true);
       document.documentElement.style.overflow = 'auto';
-      // 启动进入动画序列
-      setTimeout(() => {
-        setIsAnimating(false);
-      }, 100);
     }, 500);
-    return () => clearTimeout(timer);
+
+    // 延迟启动进入动画序列
+    const animationTimer = setTimeout(() => {
+      setIsAnimating(false);
+    }, 600); // 在页面加载完成后100ms启动动画
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(animationTimer);
+    };
   }, []);
 
   const backgroundStyle = {
@@ -181,7 +187,7 @@ const Home: React.FC<HomeProps> = ({ hitokoto }) => {
             {/* 左侧区域 - Logo和标题 */}
             <div className="space-y-8">
               {/* Logo 和标题 */}
-              <div className={`${!isAnimating ? 'animate-scale-in' : ''}`} style={{animationDelay: '0.3s'}}>
+              <div className={`${!isAnimating ? 'animate-scale-in' : 'opacity-0'}`} style={{animationDelay: '0.3s'}}>
                 <div className="flex items-center mb-6">
                   <div className="w-20 h-20 flex items-center justify-center mr-4 transition-all duration-500 hover:scale-105 hover:rotate-3 animate-float cursor-pointer group overflow-hidden">
                     <img src="/images/logo.png" alt="Logo" className="w-full h-full object-contain" />
@@ -194,7 +200,7 @@ const Home: React.FC<HomeProps> = ({ hitokoto }) => {
               </div>
 
               {/* 一言卡片 */}
-              <div className={`${!isAnimating ? 'animate-fade-in-up' : ''}`} style={{animationDelay: '0.5s'}}>
+              <div className={`${!isAnimating ? 'animate-fade-in-up' : 'opacity-0'}`} style={{animationDelay: '0.5s'}}>
                 <div className="backdrop-blur-sm rounded-2xl p-6 border transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl group overflow-hidden" style={{background: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(255, 255, 255, 0.15)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'}}>
                   <div className="text-white">
                     <div className="text-3xl mb-3 text-white/60 quote-font transition-all duration-300 group-hover:text-white/80">"</div>
@@ -209,7 +215,7 @@ const Home: React.FC<HomeProps> = ({ hitokoto }) => {
               </div>
 
               {/* 社交链接 */}
-              <div className={`flex space-x-4 ${!isAnimating ? 'animate-scale-in' : ''}`} style={{animationDelay: '0.7s'}}>
+              <div className={`flex space-x-4 ${!isAnimating ? 'animate-scale-in' : 'opacity-0'}`} style={{animationDelay: '0.7s'}}>
                 <a href="https://github.com/RodrickOMG" target="_blank" rel="noopener noreferrer" className="w-12 h-12 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 border hover:scale-105 hover:rotate-6 hover:shadow-xl group overflow-hidden" style={{background: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(255, 255, 255, 0.15)', color: 'white', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'}}>
                   <Github className="w-5 h-5 transition-all duration-300 group-hover:scale-105" />
                 </a>
@@ -225,7 +231,7 @@ const Home: React.FC<HomeProps> = ({ hitokoto }) => {
             {/* 右侧区域 */}
             <div className="space-y-8">
               {/* 时间区域 */}
-              <div className={`text-center ${!isAnimating ? 'animate-slide-in-left' : ''}`} style={{animationDelay: '0.4s'}}>
+              <div className={`text-center ${!isAnimating ? 'animate-slide-in-left' : 'opacity-0'}`} style={{animationDelay: '0.4s'}}>
                 <div className="backdrop-blur-sm rounded-2xl p-8 border transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl group overflow-hidden" style={{background: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(255, 255, 255, 0.15)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'}}>
                   {/* 日期显示 */}
                   <div className="text-white text-xl mb-4 font-medium transition-all duration-300 group-hover:text-white/90">
@@ -254,28 +260,28 @@ const Home: React.FC<HomeProps> = ({ hitokoto }) => {
               <div className="grid grid-cols-2 gap-6 p-2">
 
                 {/* 博客卡片 */}
-                <div className={`backdrop-blur-sm rounded-2xl p-4 border hover:scale-105 hover:shadow-2xl hover:rotate-1 transition-all duration-500 cursor-pointer group overflow-hidden ${!isAnimating ? 'animate-scale-in' : ''}`} style={{background: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(255, 255, 255, 0.15)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)', animationDelay: '0.6s'}}>
+                <div className={`backdrop-blur-sm rounded-2xl p-4 border hover:scale-105 hover:shadow-2xl hover:rotate-1 transition-all duration-500 cursor-pointer group overflow-hidden ${!isAnimating ? 'animate-scale-in' : 'opacity-0'}`} style={{background: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(255, 255, 255, 0.15)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)', animationDelay: '0.6s'}}>
                   <BookOpen className="w-6 h-6 mb-2 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300 text-white" />
                   <h3 className="font-medium mb-1 text-white text-sm transition-all duration-300 group-hover:text-white/90 group-hover:scale-105 origin-left">博客</h3>
                   <p className="text-xs text-white/70 transition-all duration-300 group-hover:text-white/80 group-hover:scale-105 origin-left">技术分享</p>
                 </div>
 
                 {/* 应用卡片 */}
-                <div className={`backdrop-blur-sm rounded-2xl p-4 border hover:scale-105 hover:shadow-2xl hover:-rotate-1 transition-all duration-500 cursor-pointer group overflow-hidden ${!isAnimating ? 'animate-scale-in' : ''}`} style={{background: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(255, 255, 255, 0.15)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)', animationDelay: '0.7s'}}>
+                <Link to="/apps" className={`backdrop-blur-sm rounded-2xl p-4 border hover:scale-105 hover:shadow-2xl hover:-rotate-1 transition-all duration-500 cursor-pointer group overflow-hidden block ${!isAnimating ? 'animate-scale-in' : 'opacity-0'}`} style={{background: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(255, 255, 255, 0.15)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)', animationDelay: '0.7s'}}>
                   <Layers className="w-6 h-6 mb-2 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300 text-white" />
                   <h3 className="font-medium mb-1 text-white text-sm transition-all duration-300 group-hover:text-white/90 group-hover:scale-105 origin-left">应用</h3>
                   <p className="text-xs text-white/70 transition-all duration-300 group-hover:text-white/80 group-hover:scale-105 origin-left">日常应用</p>
-                </div>
+                </Link>
 
                 {/* 网址集卡片 */}
-                <div className={`backdrop-blur-sm rounded-2xl p-4 border hover:scale-105 hover:shadow-2xl hover:rotate-1 transition-all duration-500 cursor-pointer group overflow-hidden ${!isAnimating ? 'animate-scale-in' : ''}`} style={{background: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(255, 255, 255, 0.15)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)', animationDelay: '0.8s'}}>
+                <div className={`backdrop-blur-sm rounded-2xl p-4 border hover:scale-105 hover:shadow-2xl hover:rotate-1 transition-all duration-500 cursor-pointer group overflow-hidden ${!isAnimating ? 'animate-scale-in' : 'opacity-0'}`} style={{background: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(255, 255, 255, 0.15)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)', animationDelay: '0.8s'}}>
                   <Globe className="w-6 h-6 mb-2 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300 text-white" />
                   <h3 className="font-medium mb-1 text-white text-sm transition-all duration-300 group-hover:text-white/90 group-hover:scale-105 origin-left">网址集</h3>
                   <p className="text-xs text-white/70 transition-all duration-300 group-hover:text-white/80 group-hover:scale-105 origin-left">常用链接</p>
                 </div>
 
                 {/* 音乐卡片 */}
-                <div className={`backdrop-blur-sm rounded-2xl p-4 border hover:scale-105 hover:shadow-2xl hover:-rotate-1 transition-all duration-500 cursor-pointer group overflow-hidden ${!isAnimating ? 'animate-scale-in' : ''}`} style={{background: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(255, 255, 255, 0.15)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)', animationDelay: '0.9s'}}>
+                <div className={`backdrop-blur-sm rounded-2xl p-4 border hover:scale-105 hover:shadow-2xl hover:-rotate-1 transition-all duration-500 cursor-pointer group overflow-hidden ${!isAnimating ? 'animate-scale-in' : 'opacity-0'}`} style={{background: 'rgba(0, 0, 0, 0.3)', borderColor: 'rgba(255, 255, 255, 0.15)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)', animationDelay: '0.9s'}}>
                   <Music className="w-6 h-6 mb-2 group-hover:scale-105 group-hover:rotate-6 transition-all duration-300 text-white" />
                   <h3 className="font-medium mb-1 text-white text-sm transition-all duration-300 group-hover:text-white/90 group-hover:scale-105 origin-left">音乐</h3>
                   <p className="text-xs text-white/70 transition-all duration-300 group-hover:text-white/80 group-hover:scale-105 origin-left">在线播放</p>
@@ -289,7 +295,7 @@ const Home: React.FC<HomeProps> = ({ hitokoto }) => {
         {/* 底部版权信息 */}
         {isLoaded && (
           <div
-            className={`absolute bottom-4 sm:bottom-6 inset-x-0 flex justify-center px-4 sm:px-8 ${!isAnimating ? 'animate-fade-in-up' : ''}`}
+            className={`absolute bottom-4 sm:bottom-6 inset-x-0 flex justify-center px-4 sm:px-8 ${!isAnimating ? 'animate-fade-in-up' : 'opacity-0'}`}
             style={{animationDelay: '1.0s', zIndex: 20}}
           >
             <div className="backdrop-blur-sm rounded-xl p-3 sm:p-4 border text-center max-w-full" style={{background: 'rgba(255, 255, 255, 0.05)', borderColor: 'rgba(255, 255, 255, 0.1)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'}}>
